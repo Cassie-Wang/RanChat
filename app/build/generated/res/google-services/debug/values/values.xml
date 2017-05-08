@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">172217219949-u0rs9n39pojjkm5vns8vfr2691p4rdu3.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://ranchat-5d04b.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">172217219949</string>
+    <string name="google_api_key" translatable="false">AIzaSyBMzTGaRviLP9nQJM5-T3YN9vGHYDpoWJY</string>
+    <string name="google_app_id" translatable="false">1:172217219949:android:3f414b0f55a60a89</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBMzTGaRviLP9nQJM5-T3YN9vGHYDpoWJY</string>
+    <string name="google_storage_bucket" translatable="false">ranchat-5d04b.appspot.com</string>
+</resources>
