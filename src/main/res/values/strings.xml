@@ -29,5 +29,6 @@
     <string name="delivered_text">Delivered</string>
     <string name="sending_text">Sending...</string>
     <string name="failed_text">Failed</string>
-
+    <string name="facebook_app_id">425045451214602</string>
+    <string name="fb_login_protocol_scheme">fb425045451214602</string>
 </resources>
