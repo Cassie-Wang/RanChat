@@ -68,7 +68,45 @@
                 android:layout_weight="1"
                 android:text="@string/register"
                 android:layout_marginLeft="@dimen/pad_10dp"/>
+
         </LinearLayout>
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/signed_out"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fadeScrollbars="true"
+            android:gravity="center"
+            android:maxLines="5"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
     </LinearLayout>
 
 </ScrollView>
