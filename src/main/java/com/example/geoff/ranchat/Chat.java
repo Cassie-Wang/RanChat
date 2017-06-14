@@ -3,10 +3,13 @@ package com.example.geoff.ranchat;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.text.format.DateUtils;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,7 +40,7 @@ import android.widget.TextView;
  * all the conversation messages among users and also allows the user to
  * send and receive messages.
  */
-public class Chat extends MainActivity {
+public class Chat extends MainActivity{
 
     private ArrayList<Conversation> converList;
     private ChatAdapter adap;
@@ -41,12 +48,13 @@ public class Chat extends MainActivity {
     private ChatUser chatBuddies;
     private Date lastMessageDate;
 
+    //This is the method to call chat.xml file to show on the android virtual device.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat);
 
-        converList = new ArrayList<>();
+        converList = new ArrayList<Conversation>();
         ListView list = (ListView) findViewById(R.id.list);
         adap = new ChatAdapter();
         list.setAdapter(adap);
@@ -57,8 +65,10 @@ public class Chat extends MainActivity {
         ediTxt.setInputType(InputType.TYPE_CLASS_TEXT
                 | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
+    //This code is to show touch effect on the send button
         setTouchNClick(R.id.buttonSend);
 
+     //This code is to call assigned users on the conversation(chat) list.
         chatBuddies = (ChatUser) getIntent().getSerializableExtra(Constant.EXTRA_DATA);
 
         ActionBar actionBar = getActionBar();
@@ -86,6 +96,29 @@ public class Chat extends MainActivity {
             sendMessage();
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent intent = new Intent(getApplicationContext(), Login.class);
+
+        switch (item.getItemId()){
+
+            case R.id.action_logout:
+                finish();
+                startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /*
@@ -117,8 +150,10 @@ public class Chat extends MainActivity {
             FirebaseDatabase.getInstance().getReference("messages").child(key)
                     .setValue(conversation)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                               @Override
-                                               public void onComplete(@NonNull Task<Void> task) {
+
+             //This method is to check whether the message sending feature can be successfully done or not.
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         converList.get(converList.indexOf(conversation)).setStatus(Conversation.STATUS_SENT);
                         } else {
@@ -128,9 +163,9 @@ public class Chat extends MainActivity {
                           .getReference("messages")
                           .child(key).setValue(converList.get(converList.indexOf(conversation)))
                           .addOnCompleteListener(new
-                                                                                          OnCompleteListener<Void>() {
-                                                                                              @Override
-                                                                                              public void onComplete(@NonNull Task<Void> task) {
+                           OnCompleteListener<Void>() {
+                           @Override
+                          public void onComplete(@NonNull Task<Void> task) {
                           adap.notifyDataSetChanged();
                            }
                                                 });
@@ -141,6 +176,12 @@ public class Chat extends MainActivity {
         adap.notifyDataSetChanged();
         ediTxt.setText(null);
     }
+
+    /*
+     * load the data from firebase database
+     */
+    //@Override
+    //private void
 
     /*
      * Loading the conversation list from the server and save the date of last
@@ -234,11 +275,4 @@ public class Chat extends MainActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
